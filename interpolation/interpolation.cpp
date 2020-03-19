@@ -87,8 +87,5 @@ double lagrange(double a, double b, int n, double x, double (*f)(double), bool c
         value += W[i] * f_nodes[i];
     }
 
-    delete[] W;
-    delete[] nodes;
-    delete[] f_nodes;
     return value;
 }
