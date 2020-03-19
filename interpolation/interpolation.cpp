@@ -15,7 +15,7 @@ double chebyshev(double a, double b, int i, int n)
     */
     double node;
     node = cos(((2 * (double)i + 1) / (2 * (double)n + 2)) * M_PI);
-    node = (0.5 * (b - a) * node + a + b);
+    node = 0.5 * (b - a) * node + a + b;
     return node;
 }
 
@@ -42,7 +42,7 @@ double lagrange(double a, double b, int n, double x, double (*f)(double), bool c
 
     float step = (b - a) / n;
     //cout << "\nDistance between points: " << step << endl;
-    if (cheb) {cout << "\nChebushev nodes: " << endl;}
+    if (cheb) {cout << "\nChebyshev nodes: " << endl;}
     else {cout << "Lagrange nodes: " << endl;}
 
     for (int i = 0; i <= n; i++)
@@ -68,7 +68,7 @@ double lagrange(double a, double b, int n, double x, double (*f)(double), bool c
         {
             if (i != j)
             {
-                W[i] = W[i] * (x - nodes[j]);
+                W[i] *= (x - nodes[j]);
             }
         }
 
@@ -76,13 +76,13 @@ double lagrange(double a, double b, int n, double x, double (*f)(double), bool c
         {
             if (i != j)
             {
-                W[i] = W[i] / (nodes[i] - nodes[j]);
+                W[i] /= (nodes[i] - nodes[j]);
             }
         }
         //cout << "Current W[i]: " << W[i] << endl;
     }
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i <= n; i++)
     {
         value += W[i] * f_nodes[i];
     }
