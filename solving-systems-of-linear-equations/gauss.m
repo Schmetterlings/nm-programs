@@ -34,8 +34,6 @@ for i=1:1:size_A(1)
     end
 end
 
-disp(B);
-
 % Eliminate remaining coefficients for back-substitution
 for i=size_A(1):-1:1
     for j=i:-1:2
@@ -44,5 +42,4 @@ for i=size_A(1):-1:1
 end
 
 x = B(:, size_B(2));
-
 end
