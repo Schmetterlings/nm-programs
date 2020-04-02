@@ -10,3 +10,4 @@ func3 = @(x) (x^2)/2 + cos(x)/2;
 %t = trapezoid(a, b, func1);
 %s = simpson(a, b, func1);
 c = chebyshev(a, b, 3, func1);
+comp = composite(a, b, 3 , func1);
