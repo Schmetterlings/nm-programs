@@ -4,7 +4,7 @@ double firstOrder(int n, double h, double x0, double (*f)(double))
 {
     /*
     Returns the value of first order derivative of the function f(x) at the point x.
-    Uses forward difference operator.
+    Uses backward difference operator.
 
     @params:
         n (int) - maximum order of the difference operator
@@ -15,13 +15,13 @@ double firstOrder(int n, double h, double x0, double (*f)(double))
     @returns: Value (double) of first order derivative
     */
     double* tableDiff = new double [n + 1];
-    double* forwDiff = new double [n];
+    double* backDiff = new double [n];
     double* temp;
     double sum = 0;
 
     for (int i = 0; i <= n; i++)
     {
-        tableDiff[i] = f(x0 + i * h);
+        tableDiff[i] = f(x0 - i * h);
     }
 
     for (int i = 0; i < n; i++)
@@ -33,7 +33,7 @@ double firstOrder(int n, double h, double x0, double (*f)(double))
             temp[j] = tableDiff[j + 1] - tableDiff[j];
             if (j == 0)
             {
-                forwDiff[i] = temp[j];
+                backDiff[i] = temp[j];
             }
         }
         tableDiff = temp;
@@ -43,11 +43,11 @@ double firstOrder(int n, double h, double x0, double (*f)(double))
     {
         if (i % 2 == 0)
         {
-            sum += forwDiff[i] / (i + 1);
+            sum -= backDiff[i] / (i + 1);
         }
         else
         {
-            sum -= forwDiff[i] / (i + 1);
+            sum += backDiff[i] / (i + 1);
         }
     }
 
@@ -58,7 +58,7 @@ double firstOrderModified(int n0, double h0, double x0, double eps, bool modifyN
 {
     /*
     Returns the value of first order derivative of the function f(x) with certain accuracy.
-    Uses forward difference operator.
+    Uses backward difference operator.
 
     @params:
         n0 (int) - initial value of the maximum order of the difference operator
