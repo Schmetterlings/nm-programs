@@ -106,7 +106,7 @@ double secondOrder(int n, double h, double x0, double (*f)(double))
 {
     /*
     Returns the value of second order derivative of the function f(x) at the point x.
-    Uses forward difference operator.
+    Uses backward difference operator.
 
     @params:
         n (int) - maximum order of the difference operator
@@ -117,13 +117,13 @@ double secondOrder(int n, double h, double x0, double (*f)(double))
     @returns: Value (double) of second order derivative
     */
     double* tableDiff = new double [n + 1];
-    double* forwDiff = new double [n];
+    double* backDiff = new double [n];
     double* temp;
     double sum = 0;
 
     for (int i = 0; i <= n; i++)
     {
-        tableDiff[i] = firstOrder(n, h, x0 + i * h, f);
+        tableDiff[i] = firstOrder(n, h, x0 - i * h, f);
     }
 
     for (int i = 0; i < n; i++)
@@ -135,7 +135,7 @@ double secondOrder(int n, double h, double x0, double (*f)(double))
             temp[j] = tableDiff[j + 1] - tableDiff[j];
             if (j == 0)
             {
-                forwDiff[i] = temp[j];
+                backDiff[i] = temp[j];
             }
         }
         tableDiff = temp;
@@ -145,11 +145,11 @@ double secondOrder(int n, double h, double x0, double (*f)(double))
     {
         if (i % 2 == 0)
         {
-            sum += forwDiff[i] / (i + 1);
+            sum -= backDiff[i] / (i + 1);
         }
         else
         {
-            sum -= forwDiff[i] / (i + 1);
+            sum += backDiff[i] / (i + 1);
         }
     }
 
