@@ -9,7 +9,7 @@ int main()
 {
     int n = 5;
     double x0 = 2;
-    double h = 1;
+    double h = 0.1;
     double eps = 0.001;
 
     double diff1 = firstOrder(n, h, x0, testf);

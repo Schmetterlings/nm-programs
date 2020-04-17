@@ -123,7 +123,7 @@ double secondOrder(int n, double h, double x0, double (*f)(double))
 
     for (int i = 0; i <= n; i++)
     {
-        tableDiff[i] = firstOrder(n, h, x0 - i * h, f);
+        tableDiff[i] = f(x0 - i * h);
     }
 
     for (int i = 0; i < n; i++)
@@ -141,17 +141,19 @@ double secondOrder(int n, double h, double x0, double (*f)(double))
         tableDiff = temp;
     }
 
+    n = floor(n / 2);
+    double *coefficients = new double[n];
     for (int i = 0; i < n; i++)
     {
-        if (i % 2 == 0)
+        coefficients[i] = pow(-1, i) / (i + 1);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
         {
-            sum -= backDiff[i] / (i + 1);
-        }
-        else
-        {
-            sum += backDiff[i] / (i + 1);
+            sum += backDiff[i + j + 1] * coefficients[i] * coefficients[j];
         }
     }
 
-    return (sum / h);
+    return (sum / pow(h, 2));
 }
