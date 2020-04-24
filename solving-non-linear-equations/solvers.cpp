@@ -51,6 +51,7 @@ double regula_falsi(double a, double b, double (*f)(double), double eps)
     @returns: Position (double) of the root
     */
     double x = (f(a) * b - f(b) * a) / (f(a) - f(b));
+    cout << "Regula Falsi starting point: " << x << endl;
     int i = 1;
 
     while (fabs(f(x)) > eps)
@@ -128,11 +129,72 @@ double newton(double a, double b, double (*f)(double), double eps)
         x = b;
     }
 
-    do {
+    cout << "Newton starting point: " << x << endl;
+
+    do
+    {
         x = x - (f(x) / firstOrder(4, 0.01, x, f));
         i++;
     } while (fabs(f(x)) > eps);
 
     cout << "Newton method iterations: " << i << endl;
     return x;
+}
+
+double bernoulli(int n, double coeff[], double vec[], double eps)
+{
+    /*
+    Finds the root of a given polynomial.
+
+    @params:
+        n (int) - degree of polynomial
+        coeff (double[]) - coefficients of polynomial
+        vec (double[]) - initial vector
+        eps (double) - accuracy of root calculation
+    
+    @returns: Position (double) of the root
+    */
+    double x, y = 0;
+    int iter = 0, nTemp;
+
+    if (coeff[0] == 0)
+    {
+        cout << "First coefficient cannot be 0!" << endl;
+        return 0;
+    }
+
+    do
+    {
+        nTemp = n;
+        for (int i = iter - 1; i < n + iter - 2; i++)
+        {
+            y += coeff[nTemp] * vec[i];
+            cout << "y: " << y << endl;
+            nTemp--;
+        }
+        y *= (-1 / coeff[0]);
+        vec[iter] = y;
+        iter++;
+
+        x = vec[iter] / vec[iter - 1];
+
+        cout << "y: " << y << endl;
+
+        cout << "x: " << x << endl;
+        cout << "f(x): " << polynomial(n, coeff, x) << endl;
+
+    } while (fabs(polynomial(n, coeff, x)) > eps);
+
+    cout << "Bernoulli method iterations: " << iter << endl;
+    return x;
+}
+
+double polynomial(int n, double coeff[], double x)
+{
+    double result = 0;
+    for (int i = n; i > 0; i--)
+    {
+        result += pow(x, i) * coeff[i];
+    }
+    return result;
 }
