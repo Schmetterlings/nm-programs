@@ -15,24 +15,32 @@ for i=1:matrix_size(1)
     end
 end
 
-x = ones(matrix_size(1), matrix_size(1));
-lambdas = ones(1, matrix_size(1));
-i = 1;
+x = ones(1,matrix_size(1)+1);
+x(1,matrix_size(1)+1) = 10;
+k = 1;
 
 while true
-    lambdas(i) = sum(matrix(matrix_size(1), :)' .* x(:, i)) / x(matrix_size(1), i);
-    for j=1:(matrix_size(1) - 1)
-        x(j, i) = sum(matrix(j, :)' .* x(:, i)) / lambdas(i);
+    k=k+1;
+    x(k,matrix_size(1)) = 1;
+    %fprintf('%i\n', k);
+    for i=1:matrix_size(1)-1
+        temp = 0;
+       for j=1:matrix_size(1)
+          temp = temp + matrix(i,j)*x(k-1,j);         
+       end
+       %temp = temp;
+       %x(k-1,matrix_size(1)+1)- x(k-1,matrix_size(1)+1)
+       x(k,i) = temp/x(k-1,matrix_size(1)+1);
     end
-    
-    if (i >= 2 && abs(lambdas(i) - lambdas(i-1)) < 0.001)
+    temp = 0;
+    for i = 1:matrix_size(1) %3
+       temp = temp + matrix(matrix_size(1),i)*x(k,i);
+    end
+    x(k,matrix_size(1)+1) = temp;
+    if(k > 2 && abs(x(k,1)-x(k-1,1)) < 0.0001)
         break
     end
-    i = i + 1;
-    if (length(lambdas) == i)
-        old_x = x;
-        x = [old_x ones(matrix_size(1), 1)];
-        old_lambdas = lambdas;
-        lambdas = [old_lambdas 0];
+    if k > 10
+        break
     end
 end
