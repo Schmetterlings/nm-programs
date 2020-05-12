@@ -32,7 +32,7 @@ end
 disp(Y);
 
 p = figure;
-plot(X, Y);
+plot(X, Y, 'b-', X, Y, 'ro');
 title("Runge-Kutta 4th order method visualization")
 xlabel("X")
 ylabel("Y")
