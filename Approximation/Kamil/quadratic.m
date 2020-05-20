@@ -12,8 +12,8 @@ bk = zeros(n + 1, 1);
 W = 0;
 
 for i=1:n+1
-    bkf = @(x) weight(x) * polynomial(i, x)^2;      % Expression 6.9
-    akf = @(x) weight(x) * polynomial(i, x) * f(x); % Expression 6.8
+    bkf = @(x) weight(x) * basis(i, x)^2;      % Expression 6.9
+    akf = @(x) weight(x) * basis(i, x) * f(x); % Expression 6.8
     % Using Composite quadrature formula to calculate definite integral
     bk(i) = composite(a, b, m, bkf);
     ak(i) = composite(a, b, m, akf) / bk(i);
