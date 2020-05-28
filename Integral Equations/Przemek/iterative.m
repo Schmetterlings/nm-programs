@@ -21,3 +21,4 @@ plot(x,y(8:n,:));
 value=y(n,:);
 xvalue=x;
 end
+
